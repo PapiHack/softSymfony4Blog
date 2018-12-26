@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog - {{ post.titre }}{% endblock %}
+
+{% block body %}
+
+    <div class="container"> <br/>
+        <div class="row">
+            <div class="col-lg-6 jumbotron">
+                <article>
+                    <h3>{{ post.titre }}</h3>
+                        <p>{{ post.contenu }}</p>
+                        <p class="small pull-right">{{ post.auteur }} - {{ post.date|date("d/m/Y") }}</p> <br> <br> <br>
+                        <p> <a class="btn btn-primary" href="{{ path('blog') }}"><i class="fa fa-angle-double-left"></i> Précédente</a> </p>
+                </article>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

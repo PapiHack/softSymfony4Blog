@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Blog - Accueil{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="text-center" style="text-decoration: underline;">Un blog simple avec Symfony 4 !</h1>
+                <div>
+                    <h2>Liste des posts du blog</h2> 
+                    <a class="btn btn-success" href="{{ path('add') }}"><i class="fa fa-user-plus"></i> Ajouter un post</a>
+                </div> 
+            </div>
+        </div> <br/>
+
+        <div class="row">
+            {% for msg in app.session.Flashbag.get('ajout') %}
+                <div class="col-lg-6 alert alert-success alert-dismissable">
+                    <p>{{ msg }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            {% for msg in app.session.Flashbag.get('delete') %}
+                <div class="col-lg-6 alert alert-danger alert-dismissable">
+                    <p>{{ msg }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="row">
+            {% for msg in app.session.Flashbag.get('modif') %}
+                <div class="col-lg-6 alert alert-warning alert-dismissable">
+                    <p>{{ msg }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+            {% for post in posts %}
+                <div class="row">
+                    <div class="col-lg-6 jumbotron">
+                        <article>
+                            <h3>{{ post.titre }}</h3>
+                            <p>{{ post.contenu }}</p>
+                            <p class="small pull-right">{{ post.auteur }} - {{ post.date|date("d/m/Y") }}</p> <br> <br> <br>
+                            <div class="">
+                                <a class="btn btn-primary" href="{{ path('show', {'slug': post.slug}) }}"><i class="fa fa-book"></i> Lire</a>
+                                <a class="btn btn-warning" href="{{ path('edit', {'slug': post.slug}) }}"><i class="fa fa-edit"></i> Modifier</a>
+                                <a class="btn btn-danger" href="{{ path('delete', {'slug': post.slug}) }}" id="delete"><i class="fa fa-trash-o"></i> Supprimer</a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                {% else %}
+                <h2>Pas encore de post. Veuillez en <a href="{{ path('add') }}">ajouter</a> !</h2>
+            {% endfor %}
+
+    </div>
+
+    <script>
+        document.getElementById('delete').onclick = function(e) {
+            if(!confirm('Voulez-vous vraiment supprimer ce post ?'))
+            {
+                e.preventDefault();
+            }
+        }
+    </script>
+
+{% endblock %}
